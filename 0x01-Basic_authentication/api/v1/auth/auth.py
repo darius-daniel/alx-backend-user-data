@@ -17,7 +17,7 @@ class Auth:
                 pattern = ''
                 if excluded_path.endswith('*'):
                     pattern = '{}.*'.format(excluded_path[0:-1])
-                elif exclusion_path.endswith('/'):
+                elif excluded_path.endswith('/'):
                     pattern = '{}/*'.format(excluded_path[0:-1])
                 else:
                     pattern = '{}/*'.format(excluded_path)
