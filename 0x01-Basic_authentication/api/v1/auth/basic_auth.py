@@ -67,4 +67,3 @@ class BasicAuth(Auth):
 
         if not (user_email in User().search() and user_pwd in User().search()):
             return None
-
