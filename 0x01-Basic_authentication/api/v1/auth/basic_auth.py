@@ -40,8 +40,7 @@ class BasicAuth(Auth):
                 return decoded_header.decode('utf-8')
 
     def extract_user_credential(
-            self,
-            decoded_base64_authorization_header: str) -> Tuple[str, str]:
+            self, decoded_base64_authorization_header: str) -> Tuple[str, str]:
         """ Returns the user email and password from the Base64 decoded value
         """
         if (
