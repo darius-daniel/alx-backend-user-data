@@ -51,12 +51,12 @@ def authorization_header():
         excluded_paths = [
             '/api/v1/status/',
             '/api/v1/unauthorized/',
-            '/api/v1/forbidden/'
+            '/api/v1/forbidden/',
         ]
         if auth.require_auth(request.path, excluded_paths):
-            header = auth.authorization_header(request)
+            auth_header = auth.authorization_header(request)
             user = auth.current_user(request)
-            if header is None:
+            if auth_header is None:
                 abort(401)
             if user is None:
                 abort(403)
