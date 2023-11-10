@@ -17,6 +17,9 @@ auth = None
 if getenv('AUTH_TYPE') == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
+if getenv('AUTH_TYPE') == 'basic_auth':
+    from api.v1.auth.basic_auth import BasicAuth
+    auth = BasicAuth()
 
 
 @app.errorhandler(404)
@@ -47,7 +50,7 @@ def authorization_header():
     if auth:
         excluded_paths = [
             '/api/v1/status/',
-            '/api/v1/unauthorized',
+            '/api/v1/unauthorized/',
             '/api/v1/forbidden/'
         ]
         if auth.require_auth(request.path, excluded_paths):
