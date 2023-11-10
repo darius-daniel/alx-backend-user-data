@@ -4,7 +4,7 @@
 from models.user import User
 from typing import TypeVar
 from api.v1.auth.auth import Auth
-import base64
+from base64 import b64decode
 
 
 class BasicAuth(Auth):
@@ -31,7 +31,9 @@ class BasicAuth(Auth):
                 base64_authorization_header is None or
                 not isinstance(base64_authorization_header, str)):
             try:
-                decoded_header = base64.b64decode(base64_authorization_header)
+                decoded_header = b64decode(
+                    base64_authorization_header,
+                    validate=True)
             except Exception:
                 return None
             else:
