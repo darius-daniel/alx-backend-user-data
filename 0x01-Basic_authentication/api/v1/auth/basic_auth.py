@@ -11,8 +11,7 @@ class BasicAuth(Auth):
     """ BasicAuth implementation.
     """
     def extract_base64_authorization_header(
-            self,
-            authorization_header: str) -> str:
+            self, authorization_header: str) -> str:
         """ Return Base64 part of the Authorization header for a Basic
         Authentication
         """
@@ -24,8 +23,7 @@ class BasicAuth(Auth):
         return authorization_header.split('Basic ')[1]
 
     def decode_base64_authorization_header(
-            self,
-            base64_authorization_header: str) -> str:
+            self, base64_authorization_header: str) -> str:
         """ Return the decoded value of a Base64 string
         base64_authorization_header
         """
@@ -58,8 +56,7 @@ class BasicAuth(Auth):
         return email, pwd
 
     def user_object_from_credentials(
-            self, user_email: str, user_pwd: str
-    ) -> TypeVar('User'):
+            self, user_email: str, user_pwd: str) -> TypeVar('User'):
         """ Returns the User instance based on his email and password
         """
         if (
