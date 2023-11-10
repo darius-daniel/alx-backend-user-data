@@ -12,16 +12,14 @@ class BasicAuth(Auth):
     """
     def extract_base64_authorization_header(
             self,
-            authorization_header: str
-    ) -> str:
+            authorization_header: str) -> str:
         """ Return Base64 part of the Authorization header for a Basic
         Authentication
         """
         if (
                 authorization_header is None or
                 not isinstance(authorization_header, str) or
-                not authorization_header.startswith('Basic ')
-        ):
+                not authorization_header.startswith('Basic ')):
             return None
         return authorization_header.split('Basic ')[1]
 
@@ -33,13 +31,11 @@ class BasicAuth(Auth):
         """
         if (
                 base64_authorization_header or
-                isinstance(base64_authorization_header, str)
-        ):
+                isinstance(base64_authorization_header, str)):
             try:
                 decoded_header = b64decode(
                     base64_authorization_header,
-                    validate=True
-                )
+                    validate=True)
             except Exception:
                 return None
             else:
@@ -53,8 +49,7 @@ class BasicAuth(Auth):
         if (
                 decoded_base64_authorization_header is None or
                 not isinstance(decoded_base64_authorization_header, str) or
-                ':' not in decoded_base64_authorization_header
-        ):
+                ':' not in decoded_base64_authorization_header):
             return None, None
 
         credentials = decoded_base64_authorization_header.split(':')
@@ -70,8 +65,7 @@ class BasicAuth(Auth):
         if (
                 user_email is None or not isinstance(user_email, str) or
                 user_pwd is None or not isinstance(user_pwd, str) or
-                not User().search({'email': user_email})
-        ):
+                not User().search({'email': user_email})):
             return None
 
         users = User().search({'email': user_email})
