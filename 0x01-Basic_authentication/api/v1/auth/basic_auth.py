@@ -31,7 +31,9 @@ class BasicAuth(Auth):
                 base64_authorization_header is None or
                 not isinstance(base64_authorization_header, str)):
             try:
-                decoded_header = b64decode(base64_authorization_header)
+                decoded_header = b64decode(
+                    base64_authorization_header,
+                    validate=True)
             except (binascii.Error, UnicodeDecodeError):
                 return None
             else:
