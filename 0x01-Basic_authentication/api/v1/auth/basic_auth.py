@@ -36,15 +36,16 @@ class BasicAuth(Auth):
                 base64_authorization_header is None or
                 not isinstance(base64_authorization_header, str)
         ):
-            try:
-                decoded_header = b64decode(
-                    base64_authorization_header,
-                    validate=True
-                )
-            except Exception:
-                return None
-            else:
-                return decoded_header.decode('utf-8')
+            return None
+        try:
+            decoded_header = b64decode(
+                base64_authorization_header,
+                validate=True
+            )
+        except Exception:
+            return None
+        else:
+            return decoded_header.decode('utf-8')
 
     def extract_user_credential(
             self,
