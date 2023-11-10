@@ -13,7 +13,7 @@ class Auth:
         """
         if not path or not excluded_paths:
             return True
-        
+
         if not path.endswith('/'):
             path = '{}/'.format(path)
 
