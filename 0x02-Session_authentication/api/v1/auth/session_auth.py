@@ -25,5 +25,3 @@ class SessionAuth(Auth):
         """
         if session_id and isinstance(session_id, str):
             return self.user_id_by_session_id.get(session_id)
-
-        return None
