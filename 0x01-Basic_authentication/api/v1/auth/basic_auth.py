@@ -44,7 +44,7 @@ class BasicAuth(Auth):
             else:
                 return decoded_header.decode('utf-8')
 
-    def extract_user_credential(
+    def extract_user_credentials(
             self,
             decoded_base64_authorization_header: str
             ) -> Tuple[str, str]:
