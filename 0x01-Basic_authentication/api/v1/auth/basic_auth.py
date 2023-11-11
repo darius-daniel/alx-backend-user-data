@@ -23,4 +23,3 @@ class BasicAuth(Auth):
                 authorization_header.startswith('Basic ')
                 ):
             return authorization_header.split('Basic ')[1]
-
