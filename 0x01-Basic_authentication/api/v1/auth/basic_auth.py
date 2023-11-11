@@ -16,11 +16,10 @@ class BasicAuth(Auth):
         Authentication
         """
         if (
-                authorization_header is None or
-                not isinstance(authorization_header, str) or
-                not authorization_header.startswith('Basic ')):
-            return None
-        return authorization_header.split('Basic ')[1]
+                authorization_header and
+                isinstance(authorization_header, str) and
+                authorization_header.startswith('Basic ')):
+            return authorization_header.split('Basic ')[1]
 
     def decode_base64_authorization_header(
             self, base64_authorization_header: str) -> str:
@@ -44,31 +43,31 @@ class BasicAuth(Auth):
         """ Returns the user email and password from the Base64 decoded value
         """
         if (
-                decoded_base64_authorization_header is None or
-                not isinstance(decoded_base64_authorization_header, str) or
-                ':' not in decoded_base64_authorization_header):
-            return None, None
+                decoded_base64_authorization_header and
+                isinstance(decoded_base64_authorization_header, str) and
+                ':' in decoded_base64_authorization_header
+        ):
+                credentials = decoded_base64_authorization_header.split(':')
+                email = credentials[0]
+                pwd = ':'.join(credentials[1:])
+                return email, pwd
 
-        credentials = decoded_base64_authorization_header.split(':')
-        email = credentials[0]
-        pwd = ':'.join(credentials[1:])
-        return email, pwd
+        return None, None
 
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
         """ Returns the User instance based on his email and password
         """
         if (
-                user_email is None or not isinstance(user_email, str) or
-                user_pwd is None or not isinstance(user_pwd, str) or
-                not User().search({'email': user_email})):
-            return None
+                user_email and isinstance(user_email, str) and
+                user_pwd and isinstance(user_pwd, str) and
+                User().search({'email': user_email})
+        ):
+            users = User().search({'email': user_email})
+            if users[0].is_valid_password(user_pwd):
+                return users[0]
 
-        users = User().search({'email': user_email})
-        if users[0].is_valid_password(user_pwd):
-            return users[0]
-        else:
-            return None
+        return None
 
     def current_user(self, request=None) -> TypeVar('User'):
         """ Overloads Auth and retrieves the User instance for a request
