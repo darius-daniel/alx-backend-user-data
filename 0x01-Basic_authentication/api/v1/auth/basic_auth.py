@@ -2,7 +2,7 @@
 """ Implements a class that inherits from Auth
 """
 from models.user import User
-from typing import TypeVar
+from typing import Tuple, TypeVar
 from api.v1.auth.auth import Auth
 from base64 import b64decode
 
@@ -48,7 +48,7 @@ class BasicAuth(Auth):
             self,
             decoded_base64_authorization_header: str
             ) -> Tuple[str, str]:
-        """ Returns the user email and password from the Base64 decoded value
+        """ Returns the user email and password from the Base64 decoded value.
         """
         if (
                 decoded_base64_authorization_header and
