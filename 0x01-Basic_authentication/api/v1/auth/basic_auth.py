@@ -23,3 +23,23 @@ class BasicAuth(Auth):
                 authorization_header.startswith('Basic ')
                 ):
             return authorization_header.split('Basic ')[1]
+
+    def decode_base64_authorization_header(
+            self,
+            base64_authorization_header: str
+            ) -> str:
+        """ Return the decoded value of a Base64 string
+        base64_authorization_header
+        """
+        if (
+                base64_authorization_header and
+                isinstance(base64_authorization_header, str)
+                ):
+            try:
+                decoded_header = b64decode(
+                    base64_authorization_header,
+                    validate=True)
+            except Exception:
+                return None
+            else:
+                return decoded_header.decode('utf-8')
