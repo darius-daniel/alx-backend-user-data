@@ -49,5 +49,4 @@ class Auth:
         """
         if request:
             session_name = getenv('SESSION_NAME')
-            if session_name:
-                return request.cookies.get(session_name)
+            return request.cookies.get(session_name)
