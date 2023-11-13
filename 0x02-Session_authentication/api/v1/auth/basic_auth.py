@@ -13,7 +13,7 @@ class BasicAuth(Auth):
     def extract_base64_authorization_header(
             self,
             authorization_header: str
-            ) -> str:
+    ) -> str:
         """ Return Base64 part of the Authorization header for a Basic
         Authentication.
         """
@@ -21,7 +21,7 @@ class BasicAuth(Auth):
                 authorization_header and
                 isinstance(authorization_header, str) and
                 authorization_header.startswith('Basic ')
-                ):
+        ):
             return authorization_header.split('Basic ')[1]
 
     def decode_base64_authorization_header(
@@ -34,11 +34,12 @@ class BasicAuth(Auth):
         if (
                 base64_authorization_header and
                 isinstance(base64_authorization_header, str)
-                ):
+        ):
             try:
                 decoded_header = b64decode(
                     base64_authorization_header,
-                    validate=True)
+                    validate=True
+                )
             except Exception:
                 return None
             else:
@@ -47,14 +48,14 @@ class BasicAuth(Auth):
     def extract_user_credentials(
             self,
             decoded_base64_authorization_header: str
-            ) -> Tuple[str, str]:
+    ) -> Tuple[str, str]:
         """ Returns the user email and password from the Base64 decoded value.
         """
         if (
                 decoded_base64_authorization_header and
                 isinstance(decoded_base64_authorization_header, str) and
                 ':' in decoded_base64_authorization_header
-                ):
+        ):
             credentials = decoded_base64_authorization_header.split(':')
             email = credentials[0]
             pwd = ':'.join(credentials[1:])
@@ -66,14 +67,14 @@ class BasicAuth(Auth):
             self,
             user_email: str,
             user_pwd: str
-            ) -> TypeVar('User'):
+    ) -> TypeVar('User'):
         """ Returns the User instance based on his email and password
         """
         if (
                 user_email and isinstance(user_email, str) and
                 user_pwd and isinstance(user_pwd, str) and
                 User().search({'email': user_email})
-                ):
+        ):
             users = User().search({'email': user_email})
             if users[0].is_valid_password(user_pwd):
                 return users[0]
