@@ -43,7 +43,7 @@ class SessionExpAuth(SessionAuth):
         session_dict = self.user_id_by_session_id[session_id]
         if self.session_duration <= 0:
             return session_dict['user_id']
-        if 'created_at' not in session_dict.keys():
+        if 'created_at' not in session_dict:
             return None
 
         created_at = session_dict['created_at']
