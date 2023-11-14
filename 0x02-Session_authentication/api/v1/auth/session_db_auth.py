@@ -27,24 +27,30 @@ class SessionDBAuth(SessionExpAuth):
         """ Returns the User ID by requesting UserSession in the databse based
         on session_id.
         """
-        sessions = UserSession().search({'session_id': session_id})
+        try:
+            sessions = UserSession().search({'session_id': session_id})
+        except Exception:
+            return None
         if sessions:
             curr_t = datetime.now()
             span_t = timedelta(seconds=self.session_duration)
-            exprtn_t = sessions[0].created_at + span_t
+            expiration_t = sessions[0].created_at + span_t
 
-            if exprtn_t >= curr_t:
+            if expiration_t >= curr_t:
                 return sessions[0].user_id
 
         return None
             
-
     def destroy_session(self, request=None):
         """ Destroys the UserSession based on the Session ID from the request
         cookie.
         """
         session_id = self.session_cookie(request)
-        sessions = UserSession.search({'session_id': session_id})
+        try:
+            sessions = UserSession.search({'session_id': session_id})
+        except Exception:
+            return False
+
         if sessions:
             sessions[0].remove()
             return True
