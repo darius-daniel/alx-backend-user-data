@@ -14,8 +14,8 @@ class SessionExpAuth(SessionAuth):
         """
         super().__init__()
         try:
-            self.session_duration = int(getenv('SESSION_DURARION'))
-        except (TypeError, ValueError):
+            self.session_duration = int(getenv('SESSION_DURARION', 0))
+        except Exception:
             self.session_duration = 0
 
     def create_session(self, user_id=None):
