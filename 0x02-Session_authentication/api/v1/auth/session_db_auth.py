@@ -15,7 +15,7 @@ class SessionDBAuth(SessionExpAuth):
         Session ID
         """
         session_id = super.create_session(user_id)
-        if isinstance(session_id, str):   
+        if isinstance(session_id, str):
             user_session = UserSession({
                 'user_id': user_id,
                 'session_id': session_id
@@ -40,7 +40,7 @@ class SessionDBAuth(SessionExpAuth):
                 return sessions[0].user_id
 
         return None
-            
+
     def destroy_session(self, request=None):
         """ Destroys the UserSession based on the Session ID from the request
         cookie.
@@ -56,4 +56,3 @@ class SessionDBAuth(SessionExpAuth):
             return True
 
         return False
-        
