@@ -20,6 +20,7 @@ class SessionDBAuth(SessionExpAuth):
                 'user_id': user_id,
                 'session_id': session_id
             })
+            user_session.save()
         return user_session.session_id
 
     def user_id_for_session(self, session_id=None):
@@ -28,14 +29,21 @@ class SessionDBAuth(SessionExpAuth):
         """
         sessions = UserSession().search({'session_id': session_id})
         if sessions:
-            current_time = datetime.now()
+            curr_t = datetime.now()
+            span_t = timedelta(seconds=self.session_duration)
+            exprtn_t = sessions[0].created_at + span_t
+
+            if exprtn_t >= curr_t:
+                return sessions[0].user_id
+
+        return None
             
 
     def destroy_session(self, request=None):
         """ Destroys the UserSession based on the Session ID from the request
         cookie.
         """
-        session_id = getenv('SESSION_NAME')
+        session_id = int(getenv('SESSION_NAME'))
         if (
                 request and
                 session_id in self.session_cookie(request) and
