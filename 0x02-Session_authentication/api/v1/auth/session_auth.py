@@ -35,10 +35,10 @@ class SessionAuth(Auth):
     def destroy_session(self, request=None):
         """ Deletes the user session / logout
         """
-        session_id = getenv('SESSION_NAME')
+        session_id = self.session_cookie(rqquest)
         if (
-                request and
-                session_id in self.session_cookie(request) and
+                request and session_id and
+                session_id in self.user_id_by_session_id and
                 self.user_id_for_session_id(session_id)
         ):
             del self.user_id_by_session_id[session_id]
