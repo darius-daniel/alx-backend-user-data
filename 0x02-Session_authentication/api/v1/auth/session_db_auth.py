@@ -43,11 +43,10 @@ class SessionDBAuth(SessionExpAuth):
         """ Destroys the UserSession based on the Session ID from the request
         cookie.
         """
-        session_id = int(getenv('SESSION_NAME'))
-        if (
-                request and
-                session_id in self.session_cookie(request) and
-                self.user_id_for_session(session_id)
-        ):
-            del self.user_id_by_session_id[session_id]
+        session_id = self.session_cookie(request)
+        if sessions:
+            sessions[0].remove()
+            return True
+
+        return False
         
