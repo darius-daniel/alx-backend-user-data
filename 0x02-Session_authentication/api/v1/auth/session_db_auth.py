@@ -44,6 +44,7 @@ class SessionDBAuth(SessionExpAuth):
         cookie.
         """
         session_id = self.session_cookie(request)
+        sessions = UserSession.search({'session_id': session_id})
         if sessions:
             sessions[0].remove()
             return True
