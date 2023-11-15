@@ -78,18 +78,10 @@ class Auth:
             except Exception:
                 pass
             else:
-                return user
-        return None
+                if user:
+                    return user
 
     def destroy_session(self, user_id: int) -> None:
         """ Updates the corresponding user's session ID to None
         """
         self._db.update_user(user_id, session_id=None)
-
-    def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
-        """ Finds a user with the corresponding session_id
-        """
-        if session_id is not None:
-            user = self._db.find_user_by(session_id=session_id)
-            if user:
-                return user
