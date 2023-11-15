@@ -16,7 +16,7 @@ class DB:
     def __init__(self) -> None:
         """ Initialize a new DB instance
         """
-        self._engine = create_engine('sqlite:///a.db', echo=True)
+        self._engine = create_engine('sqlite:///a.db', echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -61,7 +61,6 @@ class DB:
 
         if not first_row:
             raise NoResultFound()
-
         return first_row
 
     def update_user(self, user_id: int, **kwargs) -> None:
