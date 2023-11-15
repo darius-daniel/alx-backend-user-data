@@ -49,6 +49,8 @@ def login():
 
 @app.route('/sessions', methods=["POST"], strict_slashes=False)
 def logout():
+    """ POST /sessions
+    """
     session_id = request.cookies.get('session_id')
     user = Auth.get_user_from_session_id(session_id)
     if user:
@@ -56,6 +58,18 @@ def logout():
         redirect('/')
     else:
         return 403
+
+
+@app.route('/profile', methods=['GET'], strict_slashes=False)
+def profile():
+    """ GET /profile
+    """
+    session_id = request.cookies.get('session_id')
+    user = Auth.get_user_from_session_id(session_id)
+    email = request.form.get('email')
+    if user:
+        return 200, jsonify({'email': email})
+    return 403
 
 
 if __name__ == '__main__':
