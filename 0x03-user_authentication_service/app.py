@@ -43,8 +43,10 @@ def login():
     if not Auth.valid_login(email, pwd):
         abort(401)
 
-    request.cookies['session_id'] = Auth.create_session(email)
-    return jsonify({"email": email, "message": "logged in"})
+    
+    response = jsonify({"email": email, "message": "logged in"})
+    response.set_cookie('session_id', Auth.create_session(email))
+    return response
 
 
 @app.route('/sessions', methods=["POST"], strict_slashes=False)
