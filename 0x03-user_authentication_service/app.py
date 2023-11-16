@@ -55,20 +55,20 @@ def logout() -> str:
     user = Auth.get_user_from_session_id(session_id)
     if user:
         Auth.destroy_session(user.id)
-        return redirect(url_for('home'))
+        return redirect('/')
     abort(403)
 
 
 @app.route('/profile', methods=['GET'], strict_slashes=False)
-def profile():
+def profile() -> str:
     """ GET /profile
     """
     session_id = request.cookies.get('session_id')
     user = Auth.get_user_from_session_id(session_id)
     email = request.form.get('email')
     if user:
-        return 200, jsonify({'email': email})
-    return 403
+        return jsonify({'email': email})
+    abort(403)
 
 
 if __name__ == '__main__':
