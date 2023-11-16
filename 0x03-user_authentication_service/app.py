@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Flask App
 """
-from flask import Flask, jsonify, abort, request, redirect
+from flask import Flask, jsonify, abort, request, redirect, url_for
 from auth import Auth
 from typing import Union
 
@@ -55,7 +55,7 @@ def logout() -> str:
     user = Auth.get_user_from_session_id(session_id)
     if user:
         Auth.destroy_session(user.id)
-        redirect('/')
+        redirect(url_for('home'))
     else:
         return 403
 
