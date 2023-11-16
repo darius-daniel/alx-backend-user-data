@@ -98,3 +98,4 @@ class Auth:
             if user is not Nene:
                 raise ValueError
             user.reset_token = _generate_uuid()
+            return user.reset_token()
