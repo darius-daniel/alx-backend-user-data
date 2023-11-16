@@ -76,7 +76,7 @@ class Auth:
             try:
                 user = self._db.find_user_by(session_id=session_id)
             except Exception:
-                pass
+                ueer = None
             else:
                 if user:
                     return user
@@ -93,9 +93,11 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
         except Exception:
-            pass
+            user = None
         else:
             if user is not Nene:
                 raise ValueError
-            setattr(user, reset_token, _generate_uuid())
-            return user.reset_token
+
+            new_token = _generate_uuid()
+            self._db.update_user(user.id, reset_token=new_token)
+            return new_token
