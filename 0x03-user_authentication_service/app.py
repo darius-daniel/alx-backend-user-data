@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Flask App
 """
-from flask import Flask, jsonify, abort, request, redirect
+from flask import Flask, jsonify, abort, request, redirect, make_response
 from auth import Auth
 from typing import Union
 
@@ -45,9 +45,10 @@ def login() -> str:
     if not Auth.valid_login(email, pwd):
         abort(401)
     session_id = Auth.create_session(email)
-    response = jsonify({"email": email, "message": "logged in"})
-    response.set_cookie("session_id", session_id)
-    return response
+    response = make_response(email, password)
+    response.set_cookie('session_id', session_id)
+
+    return jsonify({'email': email, 'message': 'logged in'})
 
 
 @app.route('/sessions', methods=["DELETE"], strict_slashes=False)
