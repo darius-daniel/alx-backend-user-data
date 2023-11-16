@@ -42,7 +42,6 @@ def login() -> str:
     pwd = request.form.get('password')
     if not Auth.valid_login(email, pwd):
         abort(401)
-
     session_id = Auth.create_session(email)
     response = jsonify({"email": email, "message": "logged in"})
     response.set_cookie("session_id", session_id)

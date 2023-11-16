@@ -70,7 +70,7 @@ class DB:
         try:
             user = self.find_user_by(id=user_id)
         except (NoResultFound, InvalidRequestError):
-            pass
+            user = None
         else:
             if user:
                 for k, v in kwargs.items():
