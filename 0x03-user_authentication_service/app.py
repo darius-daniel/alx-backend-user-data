@@ -37,6 +37,8 @@ def users() -> Union[str, None]:
 @app.route('/sessions', methods=["POST"], strict_slashes=False)
 def login() -> str:
     """ POST /sessions
+    Return:
+      - A JSON Payload of the form
     """
     email = request.form.get('email')
     pwd = request.form.get('password')
