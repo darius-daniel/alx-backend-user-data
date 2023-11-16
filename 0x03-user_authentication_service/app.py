@@ -34,21 +34,19 @@ def users() -> Union[str, None]:
     return jsonify({"email": email, "message": "user created"})
 
 
-@app.route('/sessions', methods=["POST"], strict_slashes=False)
+@app.route("/sessions", methods=["POST"], strict_slashes=False)
 def login() -> str:
-    """ POST /sessions
+    """POST /sessions
     Return:
-      - A JSON Payload of the form
+        - The account login payload.
     """
-    email = request.form.get('email')
-    pwd = request.form.get('password')
-    if not Auth.valid_login(email, pwd):
+    email, password = request.form.get("email"), request.form.get("password")
+    if not AUTH.valid_login(email, password):
         abort(401)
-    session_id = Auth.create_session(email)
-    response = make_response(email, password)
-    response.set_cookie('session_id', session_id)
-
-    return jsonify({'email': email, 'message': 'logged in'})
+    session_id = AUTH.create_session(email)
+    response = jsonify({"email": email, "message": "logged in"})
+    response.set_cookie("session_id", session_id)
+    return response
 
 
 @app.route('/sessions', methods=["DELETE"], strict_slashes=False)
