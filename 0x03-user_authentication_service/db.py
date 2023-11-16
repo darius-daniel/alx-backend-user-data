@@ -72,9 +72,10 @@ class DB:
         except (NoResultFound, InvalidRequestError):
             pass
         else:
-            for k, v in kwargs.items():
-                if getattr(User, k):
-                    setattr(user, k, v)
-                else:
-                    raise ValueError()
+            if user:
+                for k, v in kwargs.items():
+                    if getattr(User, k):
+                        setattr(user, k, v)
+                    else:
+                        raise ValueError()
             self._session.commit()
