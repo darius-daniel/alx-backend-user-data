@@ -35,7 +35,7 @@ def users() -> Union[str, None]:
 
 
 @app.route('/sessions', methods=["POST"], strict_slashes=False)
-def login():
+def login() -> str:
     """ POST /sessions
     """
     email = request.form.get('email')
@@ -48,8 +48,8 @@ def login():
 
 
 @app.route('/sessions', methods=["DELETE"], strict_slashes=False)
-def logout():
-    """ POST /sessions
+def logout() -> str:
+    """ DELETE /sessions
     """
     session_id = request.cookies.get('session_id')
     user = Auth.get_user_from_session_id(session_id)
