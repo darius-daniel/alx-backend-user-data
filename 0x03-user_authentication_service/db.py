@@ -67,15 +67,11 @@ class DB:
         """ Updates a user's attributes by using self.find_user_by() to locate
         the user to update.
         """
-        try:
-            user = self.find_user_by(id=user_id)
-        except (NoResultFound, InvalidRequestError):
-            user = None
-        else:
-            if user:
-                for k, v in kwargs.items():
-                    if getattr(User, k):
-                        setattr(user, k, v)
-                    else:
-                        raise ValueError()
-            self._session.commit()
+        user = self.find_user_by(id=user_id)
+        if user:
+            for k, v in kwargs.items():
+                if hasattr(User, k):
+                    setattr(user, k, v)
+                else:
+                    raise ValueError()
+        self._session.commit()
