@@ -36,8 +36,8 @@ class SessionExpAuth(SessionAuth):
         """ Returns a User ID based on a Session ID.
         """
         if (
-                session_id is None or
-                'session_id' not in self.user_id_by_session_id.keys()
+                session_id is None and
+                session_id not in self.user_id_by_session_id.keys()
         ):
             return None
 
