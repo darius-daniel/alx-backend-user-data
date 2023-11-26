@@ -13,8 +13,9 @@ class SessionExpAuth(SessionAuth):
         """ Initializes a new instance of SessionExpAuth
         """
         super().__init__()
+        self.session_duration = getenv('SESSION_DURATION')
         try:
-            self.session_duration = int(getenv('SESSION_DURARION', 0))
+            self.session_duration = int(self.session_duration)
         except Exception:
             self.session_duration = 0
 
@@ -36,7 +37,7 @@ class SessionExpAuth(SessionAuth):
         """
         if (
                 session_id is None and
-                session_id not in self.user_id_by_session_id.keys()
+                'session_id' not in self.user_id_by_session_id.keys()
         ):
             return None
 

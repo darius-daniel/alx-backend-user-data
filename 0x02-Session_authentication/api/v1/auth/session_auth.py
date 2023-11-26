@@ -2,6 +2,7 @@
 """ Implements a class SessionAuth that inherits from Auth.
 """
 from api.v1.auth.auth import Auth
+from models.user import User
 import uuid
 
 
@@ -35,7 +36,7 @@ class SessionAuth(Auth):
     def destroy_session(self, request=None):
         """ Deletes the user session / logout
         """
-        session_id = self.session_cookie(rqquest)
+        session_id = self.session_cookie(request)
         if (
                 request and session_id and
                 session_id in self.user_id_by_session_id and

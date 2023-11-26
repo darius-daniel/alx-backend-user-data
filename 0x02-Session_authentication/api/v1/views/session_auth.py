@@ -3,7 +3,7 @@
 """
 from api.v1.views import app_views
 from models.user import User
-from flask import jsonify, abort
+from flask import jsonify, abort, request
 from os import getenv
 
 
@@ -23,11 +23,14 @@ def login() -> str:
     if not users:
         return jsonify({"error": "no user found for this email"}), 404
 
-    if users[0].is_valid_password(pwd):
+    user = users[0]
+    if user.is_valid_password(pwd) is True:
         from api.v1.app import auth
-        session_id = auth.create_session(getattr(users[0], 'id'))
-        user_dict_repr = jsonify(users[0].to_json())
-        user_dict_repr.set_cookie(getenv("SESSION_NAME", session_id))
+
+        session_id = auth.create_session(getattr(user, 'id'))
+        user_dict_repr = jsonify(user.to_json())
+        user_dict_repr.set_cookie(getenv("SESSION_NAME"), str(session_id))
+
         return user_dict_repr
 
     return jsonify({'error': 'wrong password'}), 404
