@@ -33,7 +33,7 @@ def login() -> str:
 
         return user_dict_repr
 
-    return jsonify({'error': 'wrong password'}), 404
+    return jsonify({'error': 'wrong password'}), 401
 
 
 @app_views.route(
