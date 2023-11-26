@@ -36,8 +36,8 @@ class SessionDBAuth(SessionExpAuth):
                 span_t = timedelta(seconds=self.session_duration)
                 expiration_t = session.created_at + span_t
 
-                if expiration_t >= curr_t:
-                    return session.getattr('user_id')
+                if expiration_t < curr_t:
+                    return getattr(session, 'user_id')
 
         return None
 
