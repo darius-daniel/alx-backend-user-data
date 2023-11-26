@@ -15,7 +15,8 @@ class SessionDBAuth(SessionExpAuth):
         """
         new_session_id = super().create_session(user_id)
         if isinstance(new_session_id, str):
-            new_user_session = UserSession(user_id=user_id, session_id=new_session_id)
+            new_user_session = UserSession(
+                    user_id=user_id, session_id=new_session_id)
             new_user_session.save()
         return new_session_id
 
@@ -28,7 +29,7 @@ class SessionDBAuth(SessionExpAuth):
         except Exception:
             pass
         else:
-            if sessions:
+            if len(sessions) > 0:
                 session = sessions[0]
 
                 curr_t = datetime.now()
@@ -36,7 +37,7 @@ class SessionDBAuth(SessionExpAuth):
                 expiration_t = session.created_at + span_t
 
                 if expiration_t >= curr_t:
-                    return session.user_id
+                    return session.getattr('user_id')
 
         return None
 
